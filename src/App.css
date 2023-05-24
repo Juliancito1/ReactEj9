@@ -8,3 +8,7 @@
 .paginaPrincipal{
   flex-grow: 1;
 }
+
+.Area{
+  resize: none;
+}

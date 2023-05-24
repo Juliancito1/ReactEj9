@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Card, Form , Button } from 'react-bootstrap';
+import Cardcita from './Cardcita';
 const Formulario = () => {
     
     const [mascota, setMascota] = useState('')
@@ -12,7 +13,7 @@ const Formulario = () => {
     const [listadoPacientes, setListadoPacientes] = useState(pacientes);
 
     useEffect(() => {
-        localStorage.setItem('listaPacientes',JSON.stringify(listadoPacientes))
+        localStorage.setItem('listadoPacientes',JSON.stringify(listadoPacientes))
     },[listadoPacientes])
 
     const handleSubmit = (e)  =>
@@ -52,7 +53,7 @@ const Formulario = () => {
                     </Form.Group>
                     <Form.Group className="mb-3 col-md-12" controlId="formSintomas">
                     <Form.Label>Sintomas</Form.Label>
-                    <Form.Control as="textarea" placeholder="Describa los sintomas" onChange={(e) => setSintomas(e.target.value)} value={sintomas}/>
+                    <Form.Control as="textarea" className='Area' rows={4} placeholder="Describa los sintomas" onChange={(e) => setSintomas(e.target.value)} value={sintomas}/>
                     </Form.Group>
                     <Button variant="success" className='col-md-1 ms-md-3' type="submit">
                     Enviar
@@ -60,6 +61,7 @@ const Formulario = () => {
                     </Form>
                 </Card.Body>
             </Card>
+            <Cardcita listadoPacientes={listadoPacientes}></Cardcita>
         </section>
     );
 };
