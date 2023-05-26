@@ -1,0 +1,14 @@
+#root{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-image: url(https://img.freepik.com/premium-vector/seamless-dog-pattern-with-paw-prints-bones-hearts-balls-cat-foot-texture-pattern-with-doggy_192280-793.jpg?w=2000);
+}
+
+.paginaPrincipal{
+  flex-grow: 1;
+}
+
+.Area{
+  resize: none;
+}
