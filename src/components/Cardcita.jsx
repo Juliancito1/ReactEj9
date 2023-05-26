@@ -1,6 +1,6 @@
 import { Button, Card , Col, Form, Row } from "react-bootstrap";
 
-const Cardcita = ({listadoPacientes}) => {
+const Cardcita = ({listadoPacientes, borrarCardPaciente}) => {
     return (
         <section>
                 <Row className="mt-3 container">
@@ -33,7 +33,7 @@ const Cardcita = ({listadoPacientes}) => {
                     </Form>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-end bg-info">
-                    <Button variant="danger">
+                    <Button variant="danger" onClick={() => {borrarCardPaciente(mascota.id)}}>
                         Borrar
                     </Button>
                 </Card.Footer>

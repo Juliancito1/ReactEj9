@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Card, Form , Button } from 'react-bootstrap';
+import { Card, Form , Button, Alert } from 'react-bootstrap';
 import Cardcita from './Cardcita';
+import { validaciones,  } from '../validacion.js';
 const Formulario = () => {
     
+    const [id, setIdActualizado] = useState(0)
     const [mascota, setMascota] = useState('')
     const [nombre, setNombre] = useState('');
     const [fecha, setFecha] = useState('');
     const [hora, setHora] = useState('');
     const [sintomas, setSintomas] = useState('');
-    
+    const [error, setError] = useState('');
+    const [mostrarError, setMostrarError] = useState(false);
     let pacientes = JSON.parse(localStorage.getItem('listadoPacientes')) || []
     const [listadoPacientes, setListadoPacientes] = useState(pacientes);
 
@@ -19,10 +22,32 @@ const Formulario = () => {
     const handleSubmit = (e)  =>
     {
         e.preventDefault()
-        setListadoPacientes([...listadoPacientes,{nombreMascota: mascota, nombreDuenio: nombre, fecha: fecha, hora: hora, sintomas: sintomas}])
+        let sumario = validaciones(mascota,nombre,fecha,hora,sintomas)
+        if(sumario.length === 0)
+        {
+            const nuevoId = id + 1;
+        setListadoPacientes([...listadoPacientes,{id: nuevoId, nombreMascota: mascota, nombreDuenio: nombre, fecha: fecha, hora: hora, sintomas: sintomas}])
+        setMascota('')
+        setNombre('')
+        setFecha('')
+        setHora('')
+        setSintomas('')
+        setIdActualizado(nuevoId);
+        }
+        else{
+           setError(sumario)
+           setMostrarError(true)
+           setTimeout(() => {
+            setError('');
+            setMostrarError(false)
+          }, 5000);
+        }
     }
 
-
+    const borrarCardPaciente = (pacienteId) => {
+        let arregloFiltrado = listadoPacientes.filter((paciente) => paciente.id !== pacienteId);
+        setListadoPacientes(arregloFiltrado);
+      }
 
 
 
@@ -58,10 +83,13 @@ const Formulario = () => {
                     <Button variant="success" className='col-md-1 ms-md-3' type="submit">
                     Enviar
                     </Button>
+                    {mostrarError && <Card.Footer className='my-3 alert bg-danger'>{error.split('\n').map((line, index) => (
+    <h6 key={index}>{line}</h6>
+  ))}</Card.Footer>}
                     </Form>
                 </Card.Body>
             </Card>
-            <Cardcita listadoPacientes={listadoPacientes}></Cardcita>
+            <Cardcita listadoPacientes={listadoPacientes} borrarCardPaciente={borrarCardPaciente}></Cardcita>
         </section>
     );
 };
